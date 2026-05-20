@@ -1,0 +1,676 @@
+/* ============================================================
+   HOT WHEELS — Racing Dashboard CSS
+   ============================================================ */
+
+/* --- Reset & Root ----------------------------------------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --hw-red: #e8001c;
+    --hw-orange: #ff6a00;
+    --hw-yellow: #ffcc00;
+    --hw-dark: #0d0d0d;
+    --hw-dark-2: #1a1a1a;
+    --hw-dark-3: #242424;
+    --hw-panel: #1e1e1e;
+    --hw-border: #333333;
+    --hw-text: #f0f0f0;
+    --hw-muted: #888888;
+    --hw-accent: var(--hw-red);
+    --hw-grad: linear-gradient(135deg, var(--hw-red), var(--hw-orange));
+    --hw-grad-rev: linear-gradient(135deg, var(--hw-orange), var(--hw-yellow));
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+    --transition: 200ms ease;
+}
+
+/* --- Body & Background ------------------------------------ */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--hw-dark);
+    background-image:
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 79px,
+            rgba(255, 255, 255, 0.02) 79px,
+            rgba(255, 255, 255, 0.02) 80px);
+    color: var(--hw-text);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Speed lines (decorative) ----------------------------- */
+.track-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    display: flex;
+    z-index: 100;
+}
+
+.track-lines span {
+    flex: 1;
+}
+
+.track-lines span:nth-child(1) {
+    background: var(--hw-red);
+}
+
+.track-lines span:nth-child(2) {
+    background: var(--hw-orange);
+}
+
+.track-lines span:nth-child(3) {
+    background: var(--hw-yellow);
+}
+
+.track-lines span:nth-child(4) {
+    background: var(--hw-orange);
+}
+
+.track-lines span:nth-child(5) {
+    background: var(--hw-red);
+}
+
+/* --- Typography ------------------------------------------- */
+h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    color: var(--hw-text);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+h1 .title-bar {
+    display: inline-block;
+    width: 6px;
+    height: 1em;
+    background: var(--hw-grad);
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+h2 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--hw-muted);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* --- Header ----------------------------------------------- */
+header {
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: var(--hw-dark-2);
+    border-bottom: 1px solid var(--hw-border);
+    position: sticky;
+    top: 4px;
+    z-index: 99;
+    flex-wrap: wrap;
+}
+
+.logo-wrap {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.logo {
+    height: 48px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(232, 0, 28, 0.4));
+    transition: filter var(--transition);
+}
+
+.logo:hover {
+    filter: drop-shadow(0 0 14px rgba(255, 106, 0, 0.7));
+}
+
+nav {
+    flex: 1;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--hw-muted);
+    border: 1px solid transparent;
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+
+nav a:hover,
+nav a.active {
+    color: var(--hw-text);
+    background: var(--hw-dark-3);
+    border-color: var(--hw-border);
+}
+
+nav a .nav-icon {
+    font-size: 0.9em;
+}
+
+.header-accent {
+    font-size: 1.8rem;
+    opacity: 0.6;
+    animation: flicker 3s ease-in-out infinite;
+}
+
+@keyframes flicker {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* --- Main ------------------------------------------------- */
+main {
+    flex: 1;
+    max-width: 900px;
+    width: 100%;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+}
+
+/* --- Footer ----------------------------------------------- */
+footer {
+    border-top: 1px solid var(--hw-border);
+    background: var(--hw-dark-2);
+    padding: 1.5rem 2rem;
+    margin-top: auto;
+}
+
+.footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--hw-muted);
+    font-size: 0.85rem;
+}
+
+.footer-logo {
+    height: 28px;
+    opacity: 0.4;
+    object-fit: contain;
+}
+
+/* --- Cards / Panels --------------------------------------- */
+.panel {
+    background: var(--hw-panel);
+    border: 1px solid var(--hw-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+}
+
+/* --- List items (base for swipe cards later) -------------- */
+.item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.item-card {
+    background: var(--hw-dark-2);
+    border: 1px solid var(--hw-border);
+    border-radius: var(--radius-md);
+    padding: 0.9rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color var(--transition), transform var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.item-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--hw-grad);
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+
+.item-card:hover {
+    border-color: #555;
+    transform: translateX(2px);
+}
+
+.item-name {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* --- Buttons ---------------------------------------------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), transform var(--transition);
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background: var(--hw-grad);
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn-primary:hover {
+    background: var(--hw-grad-rev);
+}
+
+.btn-secondary {
+    background: var(--hw-dark-3);
+    color: var(--hw-text);
+    border-color: var(--hw-border);
+}
+
+.btn-secondary:hover {
+    border-color: #666;
+    background: #2e2e2e;
+}
+
+.btn-danger {
+    background: transparent;
+    color: #ff4444;
+    border-color: #ff4444;
+}
+
+.btn-danger:hover {
+    background: rgba(255, 68, 68, 0.12);
+}
+
+/* legacy .button fallback so old blade files don't break */
+button,
+.button {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.45rem 1.1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--hw-border);
+    background: var(--hw-dark-3);
+    color: var(--hw-text);
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition);
+}
+
+button:hover,
+.button:hover {
+    border-color: #666;
+    background: #2e2e2e;
+}
+
+button.danger {
+    background: transparent;
+    color: #ff4444;
+    border-color: #ff4444;
+}
+
+button.danger:hover {
+    background: rgba(255, 68, 68, 0.12);
+}
+
+/* --- Actions row ------------------------------------------ */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+/* --- Heading action buttons (➕ sort links in h1) ---------- */
+h1 a,
+h1 .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-sm);
+    background: var(--hw-dark-3);
+    border: 1px solid var(--hw-border);
+    font-size: 1rem;
+    font-style: normal;
+    text-decoration: none;
+    transition: border-color var(--transition), background var(--transition);
+    flex-shrink: 0;
+}
+
+h1 a:hover {
+    background: var(--hw-dark-2);
+    border-color: #555;
+}
+
+/* --- Alerts ----------------------------------------------- */
+.alert {
+    padding: 0.9rem 1.2rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    border-left: 4px solid transparent;
+}
+
+.alert-success {
+    background: rgba(0, 200, 80, 0.08);
+    border-color: #00c850;
+    color: #7fffb2;
+}
+
+.alert-success::before {
+    content: "✓ ";
+    font-weight: 700;
+}
+
+.alert-warning {
+    background: rgba(255, 204, 0, 0.08);
+    border-color: var(--hw-yellow);
+    color: #ffe680;
+}
+
+.alert-warning::before {
+    content: "⚠ ";
+    font-weight: 700;
+}
+
+/* --- Extras pills ----------------------------------------- */
+.extras {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+}
+
+.extras li {
+    background: var(--hw-dark-3);
+    border: 1px solid var(--hw-border);
+    color: var(--hw-muted);
+    font-size: 0.78rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+}
+
+/* --- Forms ------------------------------------------------ */
+form {
+    margin-top: 0.5rem;
+}
+
+fieldset {
+    border: none;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+    padding: 0.75rem 1rem;
+    background: var(--hw-dark-2);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--hw-border);
+    transition: border-color var(--transition);
+}
+
+fieldset:focus-within {
+    border-color: var(--hw-red);
+}
+
+label {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--hw-muted);
+}
+
+input[type="text"],
+input[type="url"],
+input[type="number"],
+textarea,
+select {
+    background: var(--hw-dark-3);
+    border: 1px solid var(--hw-border);
+    border-radius: var(--radius-sm);
+    color: var(--hw-text);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 0.5rem 0.8rem;
+    width: 100%;
+    transition: border-color var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--hw-red);
+}
+
+input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: var(--hw-red);
+    cursor: pointer;
+}
+
+textarea {
+    height: 5rem;
+    resize: vertical;
+}
+
+select[multiple] {
+    height: 8rem;
+}
+
+select option {
+    background: var(--hw-dark-3);
+    color: var(--hw-text);
+}
+
+/* form submit row */
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+/* --- Show page detail rows -------------------------------- */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.detail-label {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--hw-muted);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--hw-border);
+}
+
+.detail-value {
+    font-size: 1rem;
+    color: var(--hw-text);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--hw-border);
+}
+
+.badge-packed,
+.badge-open {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.badge-packed {
+    background: rgba(0, 200, 80, 0.12);
+    color: #7fffb2;
+    border: 1px solid rgba(0, 200, 80, 0.3);
+}
+
+.badge-open {
+    background: rgba(255, 106, 0, 0.12);
+    color: #ffb366;
+    border: 1px solid rgba(255, 106, 0, 0.3);
+}
+
+/* --- Car image on show page ------------------------------- */
+.car-img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    background: var(--hw-dark-2);
+    border: 1px solid var(--hw-border);
+    padding: 0.5rem;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Paginator -------------------------------------------- */
+#paginator {
+    margin: 3rem auto 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#paginator svg {
+    width: 1.2em;
+    height: 1.2em;
+    cursor: pointer;
+    color: var(--hw-muted);
+    transition: color var(--transition);
+}
+
+#paginator svg:hover {
+    color: var(--hw-text);
+}
+
+/* --- Responsive ------------------------------------------- */
+@media (max-width: 640px) {
+    header {
+        padding: 0.75rem 1rem;
+        gap: 1rem;
+    }
+
+    nav a {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    main {
+        margin: 1.5rem auto;
+        padding: 0 1rem;
+    }
+
+    fieldset {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
