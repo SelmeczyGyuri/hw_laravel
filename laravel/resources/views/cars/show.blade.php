@@ -11,17 +11,33 @@
     {{-- LEFT COLUMN: photo + status + actions --}}
     <aside class="spec-aside">
  
-        <div class="spec-img-wrap">
+        <div class="spec-img-wrap" id="spec-img-wrap-click" title="Kattints a nagyításhoz">
             @if($car->img_url)
                 <img src="{{ $car->img_url }}"
                      alt="{{ $car->name }}"
-                     class="spec-img"
+                     class="spec-img spec-img--clickable"
+                     id="spec-img-thumb"
+                     onclick="openLightbox()"
                      onerror="this.style.display='none'; document.getElementById('spec-img-fallback').style.display='flex';">
+                <div class="spec-img-zoom-hint" aria-hidden="true">🔍</div>
             @endif
             <div id="spec-img-fallback" class="spec-img-fallback" style="{{ $car->img_url ? 'display:none' : 'display:flex' }}">
                 🚗
             </div>
         </div>
+
+        {{-- Lightbox modal --}}
+        @if($car->img_url)
+        <div id="lightbox-overlay" class="lightbox-overlay" role="dialog" aria-modal="true" aria-label="Nagyított kép" onclick="closeLightbox()">
+            <button class="lightbox-close" id="lightbox-close-btn" onclick="closeLightbox()" aria-label="Bezárás">✕</button>
+            <img src="{{ $car->img_url }}"
+                 alt="{{ $car->name }}"
+                 class="lightbox-img"
+                 id="lightbox-img"
+                 onclick="event.stopPropagation()"
+                 onerror="closeLightbox()">
+        </div>
+        @endif
  
         <div class="spec-status-wrap">
             @if($car->isPacked)
@@ -150,9 +166,93 @@
     padding: 1rem;
     transition: transform 400ms ease;
 }
- 
+
+.spec-img--clickable {
+    cursor: zoom-in;
+}
+
 .spec-img-wrap:hover .spec-img {
     transform: scale(1.06) rotate(-2deg);
+}
+
+/* zoom hint icon */
+.spec-img-zoom-hint {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.6rem;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.7));
+}
+
+.spec-img-wrap:hover .spec-img-zoom-hint {
+    opacity: 1;
+}
+
+/* --- Lightbox -------------------------------------------- */
+.lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    animation: lightbox-fade-in 250ms ease forwards;
+    cursor: zoom-out;
+}
+
+.lightbox-overlay.is-open {
+    display: flex;
+}
+
+@keyframes lightbox-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06);
+    animation: lightbox-zoom-in 280ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    cursor: default;
+}
+
+@keyframes lightbox-zoom-in {
+    from { transform: scale(0.82); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.4rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff;
+    font-size: 1.2rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 200ms ease, transform 200ms ease;
+    line-height: 1;
+    padding: 0;
+}
+
+.lightbox-close:hover {
+    background: rgba(255,255,255,0.22);
+    transform: scale(1.1) rotate(90deg);
 }
  
 .spec-img-fallback {
@@ -412,5 +512,26 @@
     }
 }
 </style>
+
+<script>
+function openLightbox() {
+    const overlay = document.getElementById('lightbox-overlay');
+    if (!overlay) return;
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lightbox-close-btn').focus();
+}
+
+function closeLightbox() {
+    const overlay = document.getElementById('lightbox-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+});
+</script>
 
 @endsection
