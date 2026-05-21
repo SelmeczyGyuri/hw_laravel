@@ -28,6 +28,16 @@
                 <li><a href="{{ route('extras.index') }}"><span class="nav-icon">⚙️</span> Extrák</a></li>
                 <li><a href="{{ route('series.index') }}"><span class="nav-icon">📦</span> Szériák</a></li>
                 <li><a href="{{ route('years.index') }}"><span class="nav-icon">📅</span> Évek</a></li>
+                @if (auth()->check())  
+                    <li>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit"><span class="nav-icon">👤</span> Kilépés {{auth()->user()->name}}</button>
+                        </form>
+                    </li>
+                @else
+                    <li><a href="{{ route('login') }}"><span class="nav-icon">👤</span> Belépés</a></li>
+                @endif
             </ul>
         </nav>
         <div class="header-accent" aria-hidden="true">
