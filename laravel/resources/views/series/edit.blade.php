@@ -2,20 +2,38 @@
 
 @section('content')
 
+<div class="form-back-link">
+    <a href="{{ route('series.index') }}" class="btn btn-secondary">← Vissza a listához</a>
+</div>
+<br>
+<h1>
+    <span class="title-bar" aria-hidden="true"></span>
+    Széria szerkesztése: {{ $series->series }}
+</h1>
+
 @error('series')
     <div class="alert alert-warning">
         {{ $message }}
     </div>
 @enderror
 
-<form action="{{ route('series.update', $series->id) }}" method="post">
-    @csrf
-    @method('PUT')
-    <fieldset>
-        <label for="series">Szín</label>
-        <input type="text" name="series" id="series" value="{{ old('series', $series->series) }}">
-    </fieldset>
-    <button type="submit">Mentés</button>
-</form>
+<div class="simple-form-wrap">
+    <form action="{{ route('series.update', $series->id) }}" method="post" class="simple-form">
+        @csrf
+        @method('PUT')
+        <div class="simple-form-body">
+            <label for="series">Széria neve</label>
+            <input type="text" name="series" id="series"
+                   value="{{ old('series', $series->series) }}"
+                   autocomplete="off">
+        </div>
+        <div class="simple-form-actions">
+            <a href="{{ route('series.index') }}" class="btn btn-secondary">Mégsem</a>
+            <button type="submit" class="btn btn-primary">✓ Mentés</button>
+        </div>
+    </form>
+</div>
+ 
+@include('_simple_form_styles')
 
 @endsection
