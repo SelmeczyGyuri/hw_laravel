@@ -8,7 +8,7 @@
 <br>
 <h1>
     <span class="title-bar" aria-hidden="true"></span>
-    "{{ $color->color }}" szín autói
+    "{{ $color->color }}" színű autók
 </h1>
 
 @if($cars->isEmpty())

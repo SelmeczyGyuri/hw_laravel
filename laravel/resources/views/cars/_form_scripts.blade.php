@@ -1,12 +1,33 @@
 <script>
 (function () {
 
-    // ── Extras chips: toggle active class on click ────────────
-    document.querySelectorAll('.chip').forEach(function (chip) {
-        chip.addEventListener('click', function () {
-            chip.classList.toggle('chip--active');
+    // ── Extras chips: sync active class with checkbox state ───
+    // The label wraps a hidden checkbox. Clicking the label toggles
+    // the checkbox natively — we just reflect that state visually.
+    function syncChips() {
+        document.querySelectorAll('.chip').forEach(function (chip) {
+            var checkbox = chip.querySelector('input[type="checkbox"]');
+            if (!checkbox) return;
+
+            // Set initial visual state from checkbox
+            if (checkbox.checked) {
+                chip.classList.add('chip--active');
+            } else {
+                chip.classList.remove('chip--active');
+            }
+
+            // Update visual state whenever the checkbox changes
+            checkbox.addEventListener('change', function () {
+                if (checkbox.checked) {
+                    chip.classList.add('chip--active');
+                } else {
+                    chip.classList.remove('chip--active');
+                }
+            });
         });
-    });
+    }
+
+    syncChips();
 
     // ── Image URL: live preview ───────────────────────────────
     var imgInput   = document.getElementById('img_url');
@@ -20,22 +41,24 @@
                 var img = document.createElement('img');
                 img.src = url.trim();
                 img.alt = 'Előnézet';
-                img.style.width   = '100%';
-                img.style.height  = '100%';
+                img.style.width     = '100%';
+                img.style.height    = '100%';
                 img.style.objectFit = 'contain';
-                img.style.padding = '4px';
+                img.style.padding   = '4px';
                 img.onerror = function () {
                     imgPreview.innerHTML = '<span class="img-preview-placeholder">❌</span>';
+                    imgPreview.style.borderColor = '';
+                };
+                img.onload = function () {
+                    imgPreview.style.borderColor = 'var(--hw-red)';
                 };
                 imgPreview.appendChild(img);
-                imgPreview.style.borderColor = 'var(--hw-red)';
             } else {
                 imgPreview.innerHTML = '<span class="img-preview-placeholder">🚗</span>';
                 imgPreview.style.borderColor = '';
             }
         }
 
-        // Fire on every keystroke with a small debounce
         var debounceTimer;
         imgInput.addEventListener('input', function () {
             clearTimeout(debounceTimer);
@@ -44,7 +67,7 @@
             }, 400);
         });
 
-        // Also run on page load (edit page already has a value)
+        // Run on load so edit page shows existing image immediately
         updatePreview(imgInput.value);
     }
 
