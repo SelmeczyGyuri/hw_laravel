@@ -57,15 +57,4 @@
     @include('_swipe_scripts')
 @endif
 
-<style>
-.empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--hw-muted);
-}
-.empty-state-icon { font-size: 3rem; display: block; margin-bottom: 1rem; opacity: .4; }
-.empty-state p { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
-    letter-spacing: .06em; text-transform: uppercase; }
-</style>
-
 @endsection

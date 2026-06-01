@@ -48,5 +48,4 @@
  
 @include('_swipe_scripts')
 
-
 @endsection

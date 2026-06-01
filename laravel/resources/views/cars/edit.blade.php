@@ -265,7 +265,6 @@
     <button type="submit">Mentés</button>
 </form>-->
 
-@include('cars._form_styles')
 @include('cars._form_scripts')
 
 @endsection

@@ -32,7 +32,4 @@
         </div>
     </form>
 </div>
- 
-@include('_simple_form_styles')
-
 @endsection
